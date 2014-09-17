@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A layout example that shows off a responsive product landing page.">
+
+        <title>TidyReadr</title>
+
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="shortcut icon" href="http://tidyreadr.com/favicon.ico?v=2" />
+
+        <style>
+
+            h2.title {
+                font-weight: 400;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                margin: 2em 0 1em;
+                text-align: center;
+            }
+
+            .content-wrapper {
+                position: absolute;
+                top: 50px;
+                width: 100%;
+                min-height: 12%;
+                z-index: 2;
+                background: white;
+            }
+
+            #footer {
+               position:fixed;
+               left:0px;
+               bottom:0px;
+               height:50px;
+               width:100%;
+               background:#000;
+               text-align: center;
+               vertical-align: middle;
+               color: #fff;
+               padding-top: 10px;
+            }
+
+            #header {
+               position:fixed;
+               left:0px;
+               top:0px;
+               height:50px;
+               width:100%;
+               background: #006699;
+               text-align: left;
+               vertical-align: middle;
+               color: #fff;
+               padding-top: 10px;
+               padding-left: 10px;
+               font-size: 20px;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            #read_content {
+                font-size: 20px;
+                font-family: 'Gentium Book Basic', serif;
+                margin-bottom: 50px;
+            }
+
+            #read_menu {
+                margin-top: 55px;
+                padding: 10px;
+                display: none;
+                position: fixed;
+                z-index: 99;
+                top: 0;
+            }
+
+            #read_body {
+                display: none;
+            }
+
+            p {
+                margin-top: 5px;
+            }
+
+            .button-read {
+                font-size: 110%;
+                background: #006699;
+                color: white;
+                border-radius: 4px;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            }
+
+            .button-black {
+                font-size: 110%;
+                background: #000;
+                color: white;
+                border-radius: 4px;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+                border: 2px solid #e0e0e0;
+            }
+
+            .button-white {
+                font-size: 110%;
+                background: #fff;
+                color: 000;
+                border-radius: 4px;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+                border: 2px solid black;
+            }
+
+            #read_content img {
+                max-width: 100%;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+            #read_content a {
+                color: #006699;
+            }
+
+            #read_content h1 {
+                font-size: 24px;
+            }
+
+            #read_title {
+                border-bottom: 1px solid #d0d0d0;
+            }
+
+        </style>
+
+
+    </head>
+    <body>
+        <div id="header">
+            <img src="/static/img/icon.png" style="vertical-align: absmiddle;" align="absmiddle" /> TIDY.READR -
+            Read without any distractions
+        </div>
+        <div id="raw_content" style="display: none;"></div>
+
+        <div class="content-wrapper">
+            <div class="content" id="read_content_form">
+                <h2 class="title">Enter the URL your want to tidy.read:</h2>
+                <div class="pure-g">
+                    <div class="pure-u-4-24"></div>
+                    <div class="pure-u-16-24">
+                        <form class="pure-form" id="read_form">
+                            <fieldset>
+                                 <input type="text" placeholder="Enter the URL here" id="read_url">
+                            </fieldset>
+                        </form>
+
+                        <div style="font-size: 20px; margin-top: 25px; text-align: center;">
+                        TidyReadr makes blog posts, articles and other webpages easy to read by removing all the distractions and allowing you to personalize the content.
+                        </div>
+                    </div>
+                    <div class="pure-u-4-24"></div>
+                </div>
+            </div>
+
+            <div class="pure-g" id="read_body">
+                <div class="pure-u-5-24">
+                    <div id="read_menu">
+                        <p><a href="#" id="read_reset" class="button-read pure-button">Reset Form</a></p>
+                        <p>
+                            <a href="#" id="read_black" class="button-black pure-button"> Aa  </a>
+                            <a href="#" id="read_white" class="button-white pure-button"> Aa  </a>
+                        </p>
+                        <p><a href="#" id="read_original" class="button-read pure-button" target="_blank">&nbsp; &nbsp;Original&nbsp; &nbsp;</a></p>
+                    </div>
+                </div>
+                <div class="pure-u-14-24">
+                    <h1 id="read_title"></h1>
+                    <div id="read_content"></div>
+                </div>
+                <div class="pure-u-5-24"></div>
+            </div>
+        </div>
+
+        <div id="footer">
+            &copy; Dominic Plouffe - dominic(at)dplouffe.ca
+        </div>
+
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="/static/js/discovery.js"></script>
+        <script>
+            $(document).ready(function() {
+
+                $('#read_url').focus();
+
+                $('#read_form').submit(function() {
+
+                    get_content();
+
+                    return false;
+                });
+
+                $('#read_black').click(function() {
+                    $('#read_body').css('background-color', '#000');
+                    $('body').css('background-color', '#000');
+                    $('#read_body').css('color', '#fff');
+                });
+
+                $('#read_white').click(function() {
+                    $('#read_body').css('background-color', '#fff');
+                    $('body').css('background-color', '#fff');
+                    $('#read_body').css('color', '#000');
+                });
+
+                $('#read_reset').click(function() {
+                    document.getElementById('read_url').value = '';
+                    $('#raw_content').html('');
+
+                    $('#read_body').hide();
+                    $('#read_content_form').show('fast');
+                    $('#footer').show();
+                    $('#read_menu').show();
+                    $('body').css('background-color', '#fff');
+
+                    history.pushState('data', '', '/');
+
+                    $('#read_url').focus();
+
+                    return false;
+                });
+
+                var query_url = location.search.split('url=')[1];
+
+                if (query_url !== undefined) {
+                    document.getElementById('read_url').value = unescape(query_url);
+                    get_content();
+                }
+            });
+
+            function get_content() {
+                var url = document.getElementById('read_url').value;
+
+                $('#read_original').attr('href', url);
+
+                var  data = {
+                    url: url
+                };
+
+                $.ajax({
+                    url: '/fetch',
+                    data: data,
+                    success: function(res) {
+
+                        $('#raw_content').html(res);
+
+                        discovery_results = discovery();
+
+                        $('#read_body').show();
+
+                        $('#read_content').html(discovery_results.body);
+                        $('#read_title').html(discovery_results.title);
+
+                        document.getElementById('read_url').value = '';
+                        $('#raw_content').html('');
+
+                        $('#read_content_form').hide('fast');
+                        $('#footer').hide();
+                        $('#read_menu').show();
+
+                        history.pushState('data', '', '?url=' + escape(url));
+
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
